@@ -35,7 +35,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 button {
@@ -47,7 +47,4 @@ button {
   .btn-style {
     justify-content: space-evenly;
   }
-}
-
-@media (max-width: 1000px) {
 }
