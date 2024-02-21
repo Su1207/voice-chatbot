@@ -27,7 +27,7 @@ body {
 
 .App {
   min-height: 100vh;
-  margin-top: 1rem;
+  margin: 1rem 0;
 }
 
 .btn-style {
@@ -41,10 +41,4 @@ body {
 button {
   color: white;
   margin-bottom: 0.5rem;
-}
-
-@media (max-width: 1000px) {
-  .btn-style {
-    justify-content: space-evenly;
-  }
 }
