@@ -25,6 +25,11 @@ body {
   height: 80vh;
 }
 
+.App {
+  min-height: 100vh;
+  margin-top: 1rem;
+}
+
 .btn-style {
   margin-top: 1rem;
   display: flex;
