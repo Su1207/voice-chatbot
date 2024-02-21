@@ -3,7 +3,7 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import useClipboard from "react-use-clipboard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
@@ -16,6 +16,10 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { BsFillSendFill } from "react-icons/bs";
+import { FaMicrophone } from "react-icons/fa";
+import { FaMicrophoneSlash } from "react-icons/fa";
+import { GrPowerReset } from "react-icons/gr";
 
 const API_KEY = "AIzaSyA8tRkKC8UCxF683P0y1nSBoN3jITMgUOI";
 const genAI = new GoogleGenerativeAI(API_KEY);
@@ -29,10 +33,11 @@ const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 const SpeechRecognitionComponent = () => {
   const [typing, setTyping] = useState(false);
+  const [newText, setNewText] = useState("");
 
   const [messages, setMessages] = useState([
     {
-      message: "Hello,I'm Suraj",
+      message: "Hello, I'm Medha! Ask me anything!",
       sender: "ai",
     },
   ]);
@@ -87,52 +92,71 @@ const SpeechRecognitionComponent = () => {
   const { transcript, browserSupportsSpeechRecognition, resetTranscript } =
     useSpeechRecognition();
 
+  useEffect(() => {
+    setNewText(transcript);
+  }, [transcript]);
+
   if (!browserSupportsSpeechRecognition) {
     return null;
   }
 
   return (
     <div className="App">
-      <div className="main_container">
-        <MainContainer>
-          <ChatContainer>
-            <MessageList
-              scrollBehavior="smooth"
-              typingIndicator={
-                typing ? <TypingIndicator content="Typing" /> : null
-              }
+      <div>
+        <h1>Medha!</h1>
+        <div className="container">
+          <div className="main_container">
+            <MainContainer>
+              <ChatContainer>
+                <MessageList
+                  scrollBehavior="smooth"
+                  typingIndicator={
+                    typing ? <TypingIndicator content="Typing" /> : null
+                  }
+                >
+                  {messages.map((message, i) => {
+                    return <Message key={i} model={message} />;
+                  })}
+                </MessageList>
+              </ChatContainer>
+            </MainContainer>
+
+            {/* <div className="border-top"></div> */}
+            <div className="input_container" as={MessageInput}>
+              <input
+                type="text"
+                placeholder="Enter your message"
+                value={newText}
+                onChange={(e) => setNewText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSend(newText);
+                  }
+                }}
+              />
+              <BsFillSendFill
+                className="send_button"
+                onClick={() => handleSend(newText)}
+              />
+            </div>
+          </div>
+
+          <div className="btn-style">
+            <div className="mic-div" onClick={startListening}>
+              <FaMicrophone className="mic" />
+            </div>
+            <div
+              className="mic-off-div"
+              onClick={SpeechRecognition.stopListening}
             >
-              {messages.map((message, i) => {
-                return <Message key={i} model={message} />;
-              })}
-            </MessageList>
-            <MessageInput
-              placeholder="Enter your message"
-              value={transcript}
-              onSend={handleSend}
-            />
-          </ChatContainer>
-        </MainContainer>
-      </div>
-      <div className="btn-style">
-        <button style={{ background: "#000" }} onClick={startListening}>
-          Start Listening
-        </button>
-        <button
-          style={{ background: "#000" }}
-          onClick={SpeechRecognition.stopListening}
-        >
-          Stop Listening
-        </button>
-        <button style={{ background: "#000" }} onClick={resetTranscript}>
-          Reset
-        </button>
-        <button
-          style={{ background: "#000" }}
-          onClick={() => handleSend(transcript)}
-        >
-          Send
-        </button>
+              <FaMicrophoneSlash className="mic-off" />
+            </div>
+            <div className="reset-div" onClick={resetTranscript}>
+              <GrPowerReset className="reset" />
+            </div>
+            {/* <button onClick={() => handleSend(transcript)}>Send</button> */}
+          </div>
+        </div>
       </div>
     </div>
   );
