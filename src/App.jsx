@@ -81,8 +81,6 @@ const SpeechRecognitionComponent = () => {
     }
   };
 
-  console.log(messages);
-
   const startListening = () =>
     SpeechRecognition.startListening({ continuous: true, language: "en-IN" });
 
