@@ -131,7 +131,7 @@ const SpeechRecognitionComponent = () => {
           style={{ background: "#000" }}
           onClick={() => handleSend(transcript)}
         >
-          Send Transcript
+          Send
         </button>
       </div>
     </div>
