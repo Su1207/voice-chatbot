@@ -94,7 +94,7 @@ const SpeechRecognitionComponent = () => {
   }
 
   return (
-    <div className="App container">
+    <div className="App">
       <div style={{ width: "700px", height: "80vh" }}>
         <MainContainer>
           <ChatContainer>
