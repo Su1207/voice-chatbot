@@ -2,8 +2,8 @@ import "regenerator-runtime/runtime";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import useClipboard from "react-use-clipboard";
-import { useEffect, useState } from "react";
+// import useClipboard from "react-use-clipboard";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
@@ -24,16 +24,12 @@ import { GrPowerReset } from "react-icons/gr";
 const API_KEY = "AIzaSyA8tRkKC8UCxF683P0y1nSBoN3jITMgUOI";
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-// const systemMessage = {
-//   //  Explain things like you're talking to a software professional with 5 years of experience.
-//   role: "system",
-//   content:
-//     "Explain things like you're talking to a software professional with 2 years of experience.",
-// };
 
 const SpeechRecognitionComponent = () => {
   const [typing, setTyping] = useState(false);
   const [newText, setNewText] = useState("");
+
+  const chatContainerRef = useRef(null);
 
   const [messages, setMessages] = useState([
     {
@@ -46,6 +42,7 @@ const SpeechRecognitionComponent = () => {
     if (!message) {
       return;
     }
+    setNewText("");
     resetTranscript();
 
     // Update messages with the user message
@@ -75,6 +72,7 @@ const SpeechRecognitionComponent = () => {
         {
           message: text,
           sender: "ai",
+          direction: "incoming",
           isCode, // Add a flag to identify code snippets
         },
       ]);
@@ -100,32 +98,52 @@ const SpeechRecognitionComponent = () => {
     return null;
   }
 
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollIntoView({ scrollBehavior: "smooth" });
+    }
+  }, [messages]);
+
   return (
-    <div className="App">
+    <div className="App ">
       <div>
-        <h1>Medha!</h1>
+        <h1 className="text-white">Medha!</h1>
+        <div className="top_button">
+          <button type="button">Learn</button>
+          <button type="button">Teach</button>
+        </div>
         <div className="container">
-          <div className="main_container">
+          <div className="main_container ">
             <MainContainer>
               <ChatContainer>
                 <MessageList
                   scrollBehavior="smooth"
                   typingIndicator={
-                    typing ? <TypingIndicator content="Typing" /> : null
+                    typing ? (
+                      <TypingIndicator content="Medha is typing" />
+                    ) : null
                   }
+                  className="bg-[#0D082C]"
                 >
-                  {messages.map((message, i) => {
-                    return <Message key={i} model={message} />;
-                  })}
+                  <div as={Message}>
+                    {messages.map((message, i) => (
+                      <Message
+                        key={i}
+                        model={message}
+                        // Example inline styles
+                      />
+                    ))}
+                    <div ref={chatContainerRef}></div>
+                  </div>
                 </MessageList>
               </ChatContainer>
             </MainContainer>
 
-            {/* <div className="border-top"></div> */}
-            <div className="input_container" as={MessageInput}>
+            <div className="input_container">
               <input
                 type="text"
                 placeholder="Enter your message"
+                className="bg-[#0D082C] text-white"
                 value={newText}
                 onChange={(e) => setNewText(e.target.value)}
                 onKeyDown={(e) => {
@@ -154,7 +172,6 @@ const SpeechRecognitionComponent = () => {
             <div className="reset-div" onClick={resetTranscript}>
               <GrPowerReset className="reset" />
             </div>
-            {/* <button onClick={() => handleSend(transcript)}>Send</button> */}
           </div>
         </div>
       </div>
