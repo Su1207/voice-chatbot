@@ -12,7 +12,7 @@
 }
 
 body {
-  min-height: 630px;
+  min-height: 620px;
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -63,6 +63,12 @@ h1 {
   padding: 3.8px 5px;
 }
 
+.input-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 input {
   border: none;
   outline: none;
@@ -79,6 +85,7 @@ input {
   color: #81c5fd;
   font-size: 1.5rem;
   cursor: pointer;
+  margin-right: 5px;
 }
 
 .top_button {
@@ -202,7 +209,7 @@ button:hover {
   }
 
   .main_container {
-    width: 90vw;
+    width: 100vw;
   }
   .cs-message__content {
     max-width: 80vw !important;

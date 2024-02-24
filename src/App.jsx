@@ -18,7 +18,6 @@ import {
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { BsFillSendFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
-import { FaMicrophoneSlash } from "react-icons/fa";
 import { GrPowerReset } from "react-icons/gr";
 
 const API_KEY = "AIzaSyA8tRkKC8UCxF683P0y1nSBoN3jITMgUOI";
@@ -85,10 +84,22 @@ const SpeechRecognitionComponent = () => {
   };
 
   const startListening = () =>
-    SpeechRecognition.startListening({ continuous: true, language: "en-IN" });
+    SpeechRecognition.startListening({ continuous: false, language: "en-IN" });
 
-  const { transcript, browserSupportsSpeechRecognition, resetTranscript } =
-    useSpeechRecognition();
+  const {
+    transcript,
+    browserSupportsSpeechRecognition,
+    resetTranscript,
+    listening,
+  } = useSpeechRecognition();
+
+  // Listen for changes in the 'listening' variable
+  useEffect(() => {
+    // If the user is not speaking, stop listening and call handleSend with the transcript
+    if (!listening) {
+      handleSend(transcript);
+    }
+  }, [listening]);
 
   useEffect(() => {
     setNewText(transcript);
@@ -152,25 +163,14 @@ const SpeechRecognitionComponent = () => {
                   }
                 }}
               />
-              <BsFillSendFill
-                className="send_button"
-                onClick={() => handleSend(newText)}
-              />
-            </div>
-          </div>
+              <div className="input-options">
+                <FaMicrophone className="mic" onClick={startListening} />
 
-          <div className="btn-style">
-            <div className="mic-div" onClick={startListening}>
-              <FaMicrophone className="mic" />
-            </div>
-            <div
-              className="mic-off-div"
-              onClick={SpeechRecognition.stopListening}
-            >
-              <FaMicrophoneSlash className="mic-off" />
-            </div>
-            <div className="reset-div" onClick={resetTranscript}>
-              <GrPowerReset className="reset" />
+                <BsFillSendFill
+                  className="send_button"
+                  onClick={() => handleSend(newText)}
+                />
+              </div>
             </div>
           </div>
         </div>
