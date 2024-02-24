@@ -37,9 +37,15 @@ const SpeechRecognitionComponent = () => {
   ]);
 
   const speakTranscript = (text) => {
-    const synth = window.speechSynthesis;
+    console.log(text);
     const utterance = new SpeechSynthesisUtterance(text);
-    synth.speak(utterance);
+
+    try {
+      window.speechSynthesis.speak(utterance);
+      console.log("speaking");
+    } catch (error) {
+      console.error("Error speaking:", error);
+    }
   };
 
   const handleSend = async (message) => {
@@ -82,7 +88,7 @@ const SpeechRecognitionComponent = () => {
       ]);
 
       setTyping(false);
-      speakTranscript("Hello"); // Speak the transcript text
+      speakTranscript(text); // Speak the transcript text
     } catch (error) {
       setTyping(false);
       console.error("generateContent error: ", error);
