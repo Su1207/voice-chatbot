@@ -26,6 +26,7 @@ const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 const SpeechRecognitionComponent = () => {
   const [typing, setTyping] = useState(false);
   const [newText, setNewText] = useState("");
+  const [aiSpeaking, setAiSpeaking] = useState(false);
 
   const chatContainerRef = useRef(null);
 
@@ -37,8 +38,10 @@ const SpeechRecognitionComponent = () => {
   ]);
 
   const speakTranscript = (text) => {
+    setAiSpeaking(true);
     console.log(text);
     const utterance = new SpeechSynthesisUtterance(text);
+    utterance.onend = () => setAiSpeaking(false);
 
     try {
       window.speechSynthesis.speak(utterance);
@@ -167,6 +170,7 @@ const SpeechRecognitionComponent = () => {
                 type="text"
                 placeholder="Enter your message"
                 className="bg-[#0D082C] text-white"
+                disabled={aiSpeaking}
                 value={newText}
                 onChange={(e) => setNewText(e.target.value)}
                 onKeyDown={(e) => {
@@ -176,7 +180,11 @@ const SpeechRecognitionComponent = () => {
                 }}
               />
               <div className="input-options">
-                <FaMicrophone className="mic" onClick={startListening} />
+                <FaMicrophone
+                  className="mic"
+                  onClick={startListening}
+                  style={{ pointerEvents: aiSpeaking ? "none" : "auto" }}
+                />
 
                 <BsFillSendFill
                   className="send_button"
