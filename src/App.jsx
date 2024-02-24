@@ -18,7 +18,6 @@ import {
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { BsFillSendFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
-import { GrPowerReset } from "react-icons/gr";
 
 const API_KEY = "AIzaSyA8tRkKC8UCxF683P0y1nSBoN3jITMgUOI";
 const genAI = new GoogleGenerativeAI(API_KEY);
@@ -36,6 +35,12 @@ const SpeechRecognitionComponent = () => {
       sender: "ai",
     },
   ]);
+
+  const speakTranscript = (text) => {
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(text);
+    synth.speak(utterance);
+  };
 
   const handleSend = async (message) => {
     if (!message) {
@@ -77,6 +82,7 @@ const SpeechRecognitionComponent = () => {
       ]);
 
       setTyping(false);
+      speakTranscript("Hello"); // Speak the transcript text
     } catch (error) {
       setTyping(false);
       console.error("generateContent error: ", error);
