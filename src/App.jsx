@@ -1,4 +1,5 @@
 import "regenerator-runtime/runtime";
+import axios from "axios";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -42,17 +43,22 @@ const SpeechRecognitionComponent = () => {
     window.location.href = "http://127.0.0.1:5000/";
   };
 
-  const speakTranscript = (text) => {
-    setAiSpeaking(true);
+  const speakTextWithFemaleVoice = (text) => {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.onend = () => setAiSpeaking(false);
 
-    try {
-      window.speechSynthesis.speak(utterance);
-      console.log("speaking");
-    } catch (error) {
-      console.error("Error speaking:", error);
+    // Get the voices available on the system
+    const voices = window.speechSynthesis.getVoices();
+
+    // Find a female voice and assign it to the utterance
+    const femaleVoice = voices.find((voice) => voice.name.includes("female"));
+    if (femaleVoice) {
+      utterance.voice = femaleVoice;
+    } else {
+      console.warn("Female voice not found. Using default voice.");
     }
+
+    // Speak the text
+    window.speechSynthesis.speak(utterance);
   };
 
   // Function to stop speech
@@ -83,8 +89,11 @@ const SpeechRecognitionComponent = () => {
     setTyping(true);
 
     try {
-      const result = await model.generateContent(message);
-      const text = result.response.text();
+      const apiUrl = `https://teachapi.azurewebsites.net/text_query/?query=${message}`;
+      const response = await axios.post(apiUrl);
+
+      console.log(response.data); // Assuming your API returns a 'response' field
+      const text = response.data();
 
       // Check if the response is code before updating messages
       const isCode = text.includes("```");
@@ -101,7 +110,7 @@ const SpeechRecognitionComponent = () => {
       ]);
 
       setTyping(false);
-      speakTranscript(text); // Speak the transcript text
+      speakTextWithFemaleVoice(text); // Speak the transcript text
     } catch (error) {
       setTyping(false);
       console.error("generateContent error: ", error);
