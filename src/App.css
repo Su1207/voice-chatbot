@@ -18,20 +18,29 @@ body {
   justify-content: center;
   align-items: flex-start;
   overflow-y: auto;
-  background: linear-gradient(
-    to right,
-    #6f29f2,
-    #13c6ff,
-    #b94dfb,
-    #ff53ae,
-    #f3b960
-  );
+  background: #0d082c
+}
+
+.header {
+  background: linear-gradient(to right,
+      #6f29f2,
+      #13c6ff,
+      #b94dfb,
+      #ff53ae,
+      #f3b960);
+  padding-bottom: 10px;
+  margin-top: 10px;
+  display: flex;
+  border-radius: 5px;
 }
 
 .main_container {
+  border: 1px solid grey;
+  border-radius: 5px;
   width: 80vw;
-  height: 80vh;
+  height: 75vh;
   position: relative;
+  margin-top: 10px;
 }
 
 .container {
@@ -42,11 +51,13 @@ body {
 h1 {
   /* margin-top: 1rem; */
   font-weight: 800;
-  text-align: center;
-  color: #fb9802;
+  /* text-align: center; */
+  color: white;
+  margin-left: 50px;
 }
 
 .input_container {
+  border: 1px solid grey;
   height: fit-content;
   z-index: 999;
   position: absolute;
@@ -93,7 +104,10 @@ input {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-bottom: 0.5rem;
+  padding-top: 5px;
+  position: relative;
+  left: 60%;
+
 }
 
 button {
@@ -142,10 +156,15 @@ button:hover {
   color: green;
 }
 
+.background {
+  background-color: #0d082c;
+}
+
 @keyframes typewriter {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
@@ -211,6 +230,7 @@ button:hover {
   .main_container {
     width: 100vw;
   }
+
   .cs-message__content {
     max-width: 80vw !important;
   }
