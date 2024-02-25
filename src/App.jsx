@@ -138,10 +138,12 @@ const SpeechRecognitionComponent = () => {
   return (
     <div className="App ">
       <div>
-        <h1 className="text-white">Medha!</h1>
-        <div className="top_button">
-          <button type="button">Learn</button>
-          <button type="button" onClick={navigateToVideos}>Teach</button>
+        <div className="header">
+          <h1 className="text-white">Medha!</h1>
+          <div className="top_button">
+            <button type="button">Learn</button>
+            <button type="button" onClick={navigateToVideos}>Teach</button>
+          </div>
         </div>
         <div className="container">
           <div className="main_container ">
