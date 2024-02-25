@@ -21,9 +21,9 @@ import { BsFillSendFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import { FaMicrophoneSlash } from "react-icons/fa";
 
-const API_KEY = "AIzaSyA8tRkKC8UCxF683P0y1nSBoN3jITMgUOI";
-const genAI = new GoogleGenerativeAI(API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+// const API_KEY = "AIzaSyA8tRkKC8UCxF683P0y1nSBoN3jITMgUOI";
+// const genAI = new GoogleGenerativeAI(API_KEY);
+// const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 const SpeechRecognitionComponent = () => {
   const [typing, setTyping] = useState(false);
@@ -46,16 +46,16 @@ const SpeechRecognitionComponent = () => {
   const speakTextWithFemaleVoice = (text) => {
     const utterance = new SpeechSynthesisUtterance(text);
 
-    // Get the voices available on the system
-    const voices = window.speechSynthesis.getVoices();
+    // // Get the voices available on the system
+    // const voices = window.speechSynthesis.getVoices();
 
-    // Find a female voice and assign it to the utterance
-    const femaleVoice = voices.find((voice) => voice.name.includes("female"));
-    if (femaleVoice) {
-      utterance.voice = femaleVoice;
-    } else {
-      console.warn("Female voice not found. Using default voice.");
-    }
+    // // Find a female voice and assign it to the utterance
+    // const femaleVoice = voices.find((voice) => voice.name.includes("female"));
+    // if (femaleVoice) {
+    //   utterance.voice = femaleVoice;
+    // } else {
+    //   console.warn("Female voice not found. Using default voice.");
+    // }
 
     // Speak the text
     window.speechSynthesis.speak(utterance);
