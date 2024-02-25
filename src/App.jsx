@@ -93,7 +93,7 @@ const SpeechRecognitionComponent = () => {
       const response = await axios.post(apiUrl);
 
       console.log(response.data); // Assuming your API returns a 'response' field
-      const text = response.data();
+      const text = response.data;
 
       // Check if the response is code before updating messages
       const isCode = text.includes("```");
