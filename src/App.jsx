@@ -18,6 +18,7 @@ import {
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { BsFillSendFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
+import { FaMicrophoneSlash } from "react-icons/fa";
 
 const API_KEY = "AIzaSyA8tRkKC8UCxF683P0y1nSBoN3jITMgUOI";
 const genAI = new GoogleGenerativeAI(API_KEY);
@@ -38,13 +39,11 @@ const SpeechRecognitionComponent = () => {
   ]);
 
   const navigateToVideos = () => {
-    window.location.href = 'http://127.0.0.1:5000/';
+    window.location.href = "http://127.0.0.1:5000/";
   };
-
 
   const speakTranscript = (text) => {
     setAiSpeaking(true);
-    console.log(text);
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.onend = () => setAiSpeaking(false);
 
@@ -54,6 +53,12 @@ const SpeechRecognitionComponent = () => {
     } catch (error) {
       console.error("Error speaking:", error);
     }
+  };
+
+  // Function to stop speech
+  const stopSpeaking = () => {
+    window.speechSynthesis.cancel();
+    setAiSpeaking(false);
   };
 
   const handleSend = async (message) => {
@@ -142,7 +147,9 @@ const SpeechRecognitionComponent = () => {
           <h1 className="text-white">Medha!</h1>
           <div className="top_button">
             <button type="button">Learn</button>
-            <button type="button" onClick={navigateToVideos}>Teach</button>
+            <button type="button" onClick={navigateToVideos}>
+              Teach
+            </button>
           </div>
         </div>
         <div className="container">
@@ -163,7 +170,7 @@ const SpeechRecognitionComponent = () => {
                       <Message
                         key={i}
                         model={message}
-                      // Example inline styles
+                        // Example inline styles
                       />
                     ))}
                     <div ref={chatContainerRef}></div>
@@ -193,6 +200,7 @@ const SpeechRecognitionComponent = () => {
                   style={{ pointerEvents: aiSpeaking ? "none" : "auto" }}
                 />
 
+                <FaMicrophoneSlash className="mic-off" onClick={stopSpeaking} />
                 <BsFillSendFill
                   className="send_button"
                   onClick={() => handleSend(newText)}
