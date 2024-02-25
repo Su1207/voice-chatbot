@@ -37,6 +37,11 @@ const SpeechRecognitionComponent = () => {
     },
   ]);
 
+  const navigateToVideos = () => {
+    window.location.href = 'http://127.0.0.1:5000/';
+  };
+
+
   const speakTranscript = (text) => {
     setAiSpeaking(true);
     console.log(text);
@@ -136,7 +141,7 @@ const SpeechRecognitionComponent = () => {
         <h1 className="text-white">Medha!</h1>
         <div className="top_button">
           <button type="button">Learn</button>
-          <button type="button">Teach</button>
+          <button type="button" onClick={navigateToVideos}>Teach</button>
         </div>
         <div className="container">
           <div className="main_container ">
@@ -156,7 +161,7 @@ const SpeechRecognitionComponent = () => {
                       <Message
                         key={i}
                         model={message}
-                        // Example inline styles
+                      // Example inline styles
                       />
                     ))}
                     <div ref={chatContainerRef}></div>
