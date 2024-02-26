@@ -43,27 +43,32 @@ const SpeechRecognitionComponent = () => {
     window.location.href = "http://127.0.0.1:5000/";
   };
 
-  const speakTextWithFemaleVoice = (text) => {
-    const utterance = new SpeechSynthesisUtterance(text);
+  let audioElement; // Declare audioElement outside of the function
 
-    // // Get the voices available on the system
-    // const voices = window.speechSynthesis.getVoices();
+  const speakTextWithFemaleVoice = async (text) => {
+    audioElement = new Audio();
+    try {
+      const response = await axios.post(
+        "https://voicebot-server.onrender.com/generate-speech",
+        {
+          text: text,
+        }
+      );
 
-    // // Find a female voice and assign it to the utterance
-    // const femaleVoice = voices.find((voice) => voice.name.includes("female"));
-    // if (femaleVoice) {
-    //   utterance.voice = femaleVoice;
-    // } else {
-    //   console.warn("Female voice not found. Using default voice.");
-    // }
-
-    // Speak the text
-    window.speechSynthesis.speak(utterance);
+      // Run this part of code after 3 seconds
+      setTimeout(async () => {
+        audioElement.src = response.data.audioUrl;
+        console.log(response.data.audioUrl);
+        await audioElement.play();
+      }, 5000);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   // Function to stop speech
   const stopSpeaking = () => {
-    window.speechSynthesis.cancel();
+    audioElement.pause();
     setAiSpeaking(false);
   };
 
@@ -89,28 +94,31 @@ const SpeechRecognitionComponent = () => {
     setTyping(true);
 
     try {
-      const apiUrl = `https://teachapi.azurewebsites.net/text_query/?query=${message}`;
+      const apiUrl = `http://127.0.0.1:8000/text_query/?query=${message}`;
       const response = await axios.post(apiUrl);
 
       console.log(response.data); // Assuming your API returns a 'response' field
       const text = response.data;
 
+      await speakTextWithFemaleVoice(text); // Speak the transcript text
+
       // Check if the response is code before updating messages
       const isCode = text.includes("```");
 
       // Update messages with the AI response
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          message: text,
-          sender: "ai",
-          direction: "incoming",
-          isCode, // Add a flag to identify code snippets
-        },
-      ]);
+      setTimeout(() => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            message: text,
+            sender: "ai",
+            direction: "incoming",
+            isCode, // Add a flag to identify code snippets
+          },
+        ]);
+      }, 3000);
 
       setTyping(false);
-      speakTextWithFemaleVoice(text); // Speak the transcript text
     } catch (error) {
       setTyping(false);
       console.error("generateContent error: ", error);
