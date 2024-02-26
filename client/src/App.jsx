@@ -51,7 +51,7 @@ const SpeechRecognitionComponent = () => {
       const response = await axios.post(
         "https://voicebot-server.onrender.com/generate-speech",
         {
-          text: "Hello I'm Suraj",
+          text: text,
         }
       );
 
