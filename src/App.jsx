@@ -47,7 +47,6 @@ const SpeechRecognitionComponent = () => {
   const audioElement = new Audio();
 
   const speakTextWithFemaleVoice = async (text) => {
-    audioElement = new Audio();
     try {
       const response = await axios.post(
         "https://voicebot-server.onrender.com/generate-speech",
@@ -57,18 +56,18 @@ const SpeechRecognitionComponent = () => {
       );
 
       // Run this part of code after 3 seconds
-      setTimeout(async () => {
-        audioElement.src = response.data.audioUrl;
-        console.log(response.data.audioUrl);
-        await audioElement.play();
-      }, 5000);
+      audioElement.src = response.data.audioUrl;
+      setSrc(response.data.audioUrl);
+      audioElement.play();
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
   // Function to stop speech
-  const stopSpeaking = () => {
+  const stopSpeaking = (audioUrl) => {
+    console.log(audioUrl);
+    audioElement.src = audioUrl;
     audioElement.pause();
     setAiSpeaking(false);
   };
@@ -108,18 +107,16 @@ const SpeechRecognitionComponent = () => {
       // Check if the response is code before updating messages
       const isCode = text.includes("```");
 
-      // Update messages with the AI response
-      setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            message: text,
-            sender: "ai",
-            direction: "incoming",
-            isCode, // Add a flag to identify code snippets
-          },
-        ]);
-      }, 3000);
+      // Update messages with the AI respon
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          message: text,
+          sender: "ai",
+          direction: "incoming",
+          isCode, // Add a flag to identify code snippets
+        },
+      ]);
 
       setTyping(false);
     } catch (error) {
