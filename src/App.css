@@ -1,4 +1,13 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Inter&family=Lato&family=Libre+Baskerville&family=Merriweather:wght@700&family=Work+Sans&display=swap"); */
+@font-face {
+  font-family: "Satoshi-bold";
+  src: url("/Satoshi-Bold.ttf") format("woff2");
+  /* Add additional src declarations for other font formats if needed */
+  font-family: "Satoshi-regular";
+  src: url("/Satoshi-Regular.ttf") format("woff2");
+  font-family: "Inter-medium";
+  src: url("/Inter-Medium.ttf") format("woff2");
+}
 
 * {
   margin: 0;
@@ -22,20 +31,21 @@ body {
 }
 
 .header {
-  background: linear-gradient(
+  /* background: linear-gradient(
     to right,
     #6f29f2,
     #13c6ff,
     #b94dfb,
     #ff53ae,
     #f3b960
-  );
+  ); */
   /* padding-bottom: 10px; */
+  background: #0029ff;
   margin-top: 10px;
   display: flex;
-  border-radius: 5px;
-  padding-top: 1%;
-  padding-bottom: 2%;
+  flex-direction: column;
+  border-radius: 32px;
+  gap: 5px;
 }
 
 .main_container {
@@ -54,10 +64,10 @@ body {
 
 h1 {
   /* margin-top: 1rem; */
-  font-weight: 800;
+  font-weight: 600;
   /* text-align: center; */
   color: white;
-  margin-left: 50px;
+  /* margin-left: 50px; */
 }
 
 .input_container {
@@ -65,7 +75,7 @@ h1 {
   height: fit-content;
   z-index: 999;
   position: absolute;
-  bottom: -3.05rem;
+  bottom: -3.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -74,7 +84,7 @@ h1 {
   border-radius: 5px;
 
   width: 100%;
-  background: #0d082c !important;
+  background: white !important;
   padding: 3.8px 5px;
 }
 
@@ -89,9 +99,9 @@ input {
   outline: none;
   padding: 12px 8px;
   /* background: #81c5fd; */
-  background: #0d082c !important;
+  background: white !important;
 
-  color: white;
+  color: grey;
   border-radius: 10px;
   width: 100%;
 }
@@ -108,15 +118,13 @@ input {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding-top: 5px;
-  position: relative;
-  left: 60%;
+  font-family: "Inter-medium", sans-serif;
 }
 
 button {
-  color: white;
+  color: black;
   cursor: pointer;
-  background: #0d082c;
+  background: white;
   border: none;
   outline: none;
   font-weight: 500;
@@ -160,7 +168,7 @@ button:hover {
 }
 
 .background {
-  background-color: #0d082c;
+  background-color: white;
 }
 
 @keyframes typewriter {
@@ -174,24 +182,27 @@ button:hover {
 }
 
 .cs-message__html-content {
-  color: white;
+  color: white !important;
 }
 
 .cs-message__content {
-  background: #6f699b !important;
+  background: #0029FF !important;
   margin-bottom: 1rem !important;
   max-width: 45vw !important;
 }
 
 .cs-message--incoming {
   .cs-message__content {
-    background-color: #6f699b !important;
+    background-color: #0029ff !important;
+    color: white !important;
+    font-size: 16px !important;
   }
 }
-
 .cs-message--outgoing {
   .cs-message__content {
-    background-color: #4629f2 !important;
+    background-color: #938b8b !important;
+
+    font-size: 14px !important;
   }
 }
 
@@ -202,11 +213,11 @@ button:hover {
 }
 
 .cs-chat-container {
-  background: #0d082c !important;
+  background: white !important;
 }
 
 .cs-message-list {
-  background: #0d082c !important;
+  background: white !important;
 }
 
 .cs-typing-indicator {
@@ -237,4 +248,61 @@ button:hover {
   .cs-message__content {
     max-width: 80vw !important;
   }
+}
+/* .above {
+  background-color: white;
+} */
+.medha-heading {
+  margin-top: 18px;
+}
+.header-first h6 {
+  color: white;
+  font-size: 50px;
+  font-family: "Satoshi-bold", sans-serif;
+}
+.header-first {
+  color: white;
+  text-align: center;
+}
+.header-first p {
+  color: white;
+  font-size: 14px;
+  font-family: "Satoshi-regular", sans-serif;
+  font-weight: lighter;
+}
+.learn {
+  border-radius: 30px;
+  font-family: "Inter-medium", sans-serif;
+  width: 120px;
+  height: 38px;
+  font-size: 16px;
+  border: solid black 0px;
+}
+.teach {
+  border-radius: 30px;
+  font-family: "Inter-medium", sans-serif;
+  width: 120px;
+  height: 38px;
+  font-size: 16px;
+  border: solid black 0px;
+}
+.header-second {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 40px;
+  /* margin: 5px 80px; */
+}
+.bot-img {
+  background-color: #7879f1;
+  border-radius: 100%;
+  width: 94px;
+  height: 85px;
+}
+.bot-medha {
+  display: flex;
+    /* justify-content: space-around; */
+    gap: 8px;
+}
+.img-robot {
+  margin: 20px 6px;
 }

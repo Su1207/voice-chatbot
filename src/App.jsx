@@ -156,17 +156,37 @@ const SpeechRecognitionComponent = () => {
       chatContainerRef.current.scrollIntoView({ scrollBehavior: "smooth" });
     }
   }, [messages]);
-
   return (
     <div className="App ">
-      <div>
+      <div className="above">
         <div className="header">
-          <h1 className="text-white">Medha!</h1>
-          <div className="top_button">
-            <button type="button">Learn</button>
-            <button type="button" onClick={navigateToVideos}>
-              Teach
-            </button>
+          <div className="header-first">
+            <h6>Conversation</h6>
+            <p>
+              This is private message, between you and budddy. this chat is end
+              to end encrypted...
+            </p>
+          </div>
+          <div className="header-second">
+            <div className="bot-medha">
+              <div className="bot-img">
+                <img src="/Character 19.png" alt="" className="img-robot" />
+              </div>
+              <h1 className="medha-heading">Medha</h1>
+            </div>
+            <div className="top_button">
+              <button type="button " className="learn">
+                {" "}
+                Learn
+              </button>
+              <button
+                type="button"
+                className="teach"
+                onClick={navigateToVideos}
+              >
+                Teach
+              </button>
+            </div>
           </div>
         </div>
         <div className="container">
