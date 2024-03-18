@@ -8,7 +8,9 @@
   font-family: "Inter-medium";
   src: url("/Inter-Medium.ttf") format("woff2");
 }
-
+.App {
+  height: fit-content;
+}
 * {
   margin: 0;
   padding: 0;
@@ -26,7 +28,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  overflow-y: auto;
+  overflow-y: hidden;
   background: #0d082c;
 }
 
@@ -41,20 +43,20 @@ body {
   ); */
   /* padding-bottom: 10px; */
   background: #0029ff;
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  border-radius: 32px;
-  gap: 5px;
+  border-radius: 20px;
+  gap: 4px;
 }
 
 .main_container {
   border: 1px solid grey;
-  border-radius: 5px;
+ border-radius: 10px;
   width: 80vw;
-  height: 75vh;
+ 
   position: relative;
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 .container {
@@ -75,7 +77,7 @@ h1 {
   height: fit-content;
   z-index: 999;
   position: absolute;
-  bottom: -3.5rem;
+  bottom: -3rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -85,7 +87,7 @@ h1 {
 
   width: 100%;
   background: white !important;
-  padding: 3.8px 5px;
+  padding: 0.5px 5px;
 }
 
 .input-options {
@@ -137,7 +139,7 @@ button {
 }
 
 button:hover {
-  background: #000;
+  background: #a59e9e;
 }
 
 .btn-style {
@@ -186,7 +188,7 @@ button:hover {
 }
 
 .cs-message__content {
-  background: #0029FF !important;
+  background: #0029ff !important;
   margin-bottom: 1rem !important;
   max-width: 45vw !important;
 }
@@ -195,14 +197,14 @@ button:hover {
   .cs-message__content {
     background-color: #0029ff !important;
     color: white !important;
-    font-size: 16px !important;
+    font-size: 13px !important;
   }
 }
 .cs-message--outgoing {
   .cs-message__content {
     background-color: #938b8b !important;
 
-    font-size: 14px !important;
+    font-size: 12px !important;
   }
 }
 
@@ -210,6 +212,7 @@ button:hover {
   border: none !important;
   outline: none !important;
   border-radius: 5px;
+  height :60vh !important;
 }
 
 .cs-chat-container {
@@ -218,6 +221,7 @@ button:hover {
 
 .cs-message-list {
   background: white !important;
+  /* width: 40px !important; */
 }
 
 .cs-typing-indicator {
@@ -253,11 +257,11 @@ button:hover {
   background-color: white;
 } */
 .medha-heading {
-  margin-top: 18px;
+  margin-top: 13px;
 }
 .header-first h6 {
   color: white;
-  font-size: 50px;
+  font-size: 43px;
   font-family: "Satoshi-bold", sans-serif;
 }
 .header-first {
@@ -273,17 +277,17 @@ button:hover {
 .learn {
   border-radius: 30px;
   font-family: "Inter-medium", sans-serif;
-  width: 120px;
-  height: 38px;
-  font-size: 16px;
+  width: 100px;
+  height: 34px;
+  font-size: 13px;
   border: solid black 0px;
 }
 .teach {
   border-radius: 30px;
   font-family: "Inter-medium", sans-serif;
-  width: 120px;
-  height: 38px;
-  font-size: 16px;
+  width: 100px;
+  height: 34px;
+  font-size: 13px;
   border: solid black 0px;
 }
 .header-second {
@@ -295,14 +299,15 @@ button:hover {
 .bot-img {
   background-color: #7879f1;
   border-radius: 100%;
-  width: 94px;
-  height: 85px;
+  width: 76px;
+  height: 72px;
 }
 .bot-medha {
   display: flex;
-    /* justify-content: space-around; */
-    gap: 8px;
+  /* justify-content: space-around; */
+  gap: 8px;
 }
 .img-robot {
-  margin: 20px 6px;
+  width: 80%;
+  margin: 22px 7px;
 }
