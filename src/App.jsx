@@ -96,7 +96,7 @@ const SpeechRecognitionComponent = () => {
     setTyping(true);
 
     try {
-      const apiUrl = `https://teachapi.azurewebsites.net/text_query/?query=${message}`;
+      const apiUrl = `https://medha-cograd.azurewebsites.net/text_query/?query=${message}`;
       const response = await axios.post(apiUrl);
 
       console.log(response.data); // Assuming your API returns a 'response' field
