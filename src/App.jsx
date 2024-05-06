@@ -30,20 +30,6 @@ const SpeechRecognitionComponent = () => {
   const [newText, setNewText] = useState("");
   const [aiSpeaking, setAiSpeaking] = useState(false);
   const [src, setSrc] = useState();
-  const [language, setLanguage] = useState("");
-  const [classNumber, setClassNumber] = useState("");
-  const [subject, setSubject] = useState("");
-  const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-  };
-
-  const handleClassChange = (e) => {
-    setClassNumber(e.target.value);
-  };
-
-  const handleSubjectChange = (e) => {
-    setSubject(e.target.value);
-  };
 
   const chatContainerRef = useRef(null);
 
@@ -91,15 +77,11 @@ const SpeechRecognitionComponent = () => {
       return;
     }
 
+    // deleteFile("../voice-chatbot/public/audio.mp3");
     setNewText("");
     resetTranscript();
 
-    // Get the values from the dropdowns
-    const language = document.querySelector("select#language").value;
-    const classNumber = document.querySelector("select#class").value; // Keep this as a string
-    const subject = document.querySelector("select#subject").value;
-
-    // Update messages with the user's message
+    // Update messages with the user message
     const newMessage = {
       message,
       direction: "outgoing",
@@ -107,40 +89,39 @@ const SpeechRecognitionComponent = () => {
     };
 
     const newMessages = [...messages, newMessage];
+
     setMessages(newMessages);
 
+    //set typing indicator
     setTyping(true);
 
     try {
-      // Construct the API URL with query parameters
-      const apiUrl = `https://medha-cograd.azurewebsites.net/text_query/?query=${message}&language=${language}&class_num=${classNumber}&subject=${subject}`;
-
+      const apiUrl = `https://teachapi.azurewebsites.net/text_query/?query=${message}`;
       const response = await axios.post(apiUrl);
 
-      console.log(response.data);
-
+      console.log(response.data); // Assuming your API returns a 'response' field
       const text = response.data;
 
-      // Play the response text with a female voice
-      await speakTextWithFemaleVoice(text);
+      await speakTextWithFemaleVoice(text); // Speak the transcript text
 
+      // Check if the response is code before updating messages
       const isCode = text.includes("```");
 
-      // Update messages with the AI's response
+      // Update messages with the AI respon
       setMessages((prevMessages) => [
         ...prevMessages,
         {
           message: text,
           sender: "ai",
           direction: "incoming",
-          isCode,
+          isCode, // Add a flag to identify code snippets
         },
       ]);
 
       setTyping(false);
     } catch (error) {
       setTyping(false);
-      console.error("Error while sending message:", error);
+      console.error("generateContent error: ", error);
     }
   };
 
@@ -180,12 +161,18 @@ const SpeechRecognitionComponent = () => {
       <div className="above">
         <div className="header">
           <div className="header-first">
-            <div>
-              <h6>Conversation</h6>
-              <p>
-                This is private message, between you and budddy. this chat is
-                end to end encrypted
-              </p>
+            <h6>Conversation</h6>
+            <p>
+              This is private message, between you and budddy. this chat is end
+              to end encrypted...
+            </p>
+          </div>
+          <div className="header-second">
+            <div className="bot-medha">
+              <div className="bot-img">
+                <img src="/Character 19.png" alt="" className="img-robot" />
+              </div>
+              <h1 className="medha-heading">Medha</h1>
             </div>
             <div className="top_button">
               <button type="button " className="learn">
@@ -199,64 +186,6 @@ const SpeechRecognitionComponent = () => {
               >
                 Teach
               </button>
-            </div>
-          </div>
-          <div className="header-second">
-            <div className="bot-medha">
-              <div className="bot-img">
-                <img src="/Character 19.png" alt="" className="img-robot" />
-              </div>
-              <h1 className="medha-heading">Medha</h1>
-            </div>
-            <div
-              className="top_button"
-              style={{ display: "flex", gap: "10px", alignItems: "center" }}
-            >
-              <select
-                value={language}
-                onChange={handleLanguageChange}
-                style={{
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              >
-                <option value="">Select Language</option>
-                <option value="english">English</option>
-                <option value="hindi">Hindi</option>
-                <option value="hinglish">Hinglish</option>
-              </select>
-
-              <select
-                id="class"
-                value={classNumber}
-                onChange={handleClassChange}
-                style={{
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              >
-                <option value="">Select Class</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-              </select>
-
-              <select
-                value={subject}
-                onChange={handleSubjectChange}
-                style={{
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              >
-                <option value="">Select Subject</option>
-                <option value="english">English</option>
-                <option value="social-science">Social Science</option>
-                <option value="science">Science</option>
-              </select>
             </div>
           </div>
         </div>
