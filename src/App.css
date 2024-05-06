@@ -122,6 +122,13 @@ input {
   gap: 10px;
   font-family: "Inter-medium", sans-serif;
 }
+/* .three_scroll {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-family: "Inter-medium", sans-serif;
+} */
 
 button {
   color: black;
@@ -266,6 +273,8 @@ button:hover {
 }
 .header-first {
   color: white;
+  display: flex;
+  justify-content: space-around;
   text-align: center;
 }
 .header-first p {
