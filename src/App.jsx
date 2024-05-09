@@ -20,6 +20,8 @@ import {
 import { BsFillSendFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import { FaMicrophoneSlash } from "react-icons/fa";
+import Header from "./component/Header";
+import InputContainer from "./component/InputContainer";
 
 // const API_KEY = "AIzaSyA8tRkKC8UCxF683P0y1nSBoN3jITMgUOI";
 // const genAI = new GoogleGenerativeAI(API_KEY);
@@ -30,9 +32,9 @@ const SpeechRecognitionComponent = () => {
   const [newText, setNewText] = useState("");
   const [aiSpeaking, setAiSpeaking] = useState(false);
   const [src, setSrc] = useState();
-  const [language, setLanguage] = useState("");
-  const [classNumber, setClassNumber] = useState("");
-  const [subject, setSubject] = useState("");
+  const [language, setLanguage] = useState("English");
+  const [classNumber, setClassNumber] = useState("6");
+  const [subject, setSubject] = useState("English");
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value);
   };
@@ -173,88 +175,15 @@ const SpeechRecognitionComponent = () => {
   return (
     <div className="App ">
       <div className="above">
-        <div className="header">
-          <div className="header-first">
-            <div>
-              <h6>Conversation</h6>
-              <p>
-                This is private message, between you and budddy. this chat is
-                end to end encrypted
-              </p>
-            </div>
-            <div className="top_button">
-              <button type="button " className="learn">
-                {" "}
-                Learn
-              </button>
-              <button
-                type="button"
-                className="teach"
-                onClick={navigateToVideos}
-              >
-                Teach
-              </button>
-            </div>
-          </div>
-          <div className="header-second">
-            <div className="bot-medha">
-              <div className="bot-img">
-                <img src="/Character 19.png" alt="" className="img-robot" />
-              </div>
-              <h1 className="medha-heading">Medha</h1>
-            </div>
-            <div
-              className="top_button"
-              style={{ display: "flex", gap: "10px", alignItems: "center" }}
-            >
-              <select
-                value={language}
-                onChange={handleLanguageChange}
-                style={{
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              >
-                <option value="">Select Language</option>
-                <option value="english">English</option>
-                <option value="hindi">Hindi</option>
-                <option value="hinglish">Hinglish</option>
-              </select>
-
-              <select
-                id="class"
-                value={classNumber}
-                onChange={handleClassChange}
-                style={{
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              >
-                <option value="">Select Class</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-              </select>
-
-              <select
-                value={subject}
-                onChange={handleSubjectChange}
-                style={{
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              >
-                <option value="">Select Subject</option>
-                <option value="english">English</option>
-                <option value="social-science">Social Science</option>
-                <option value="science">Science</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        <Header
+          navigateToVideos={navigateToVideos}
+          language={language}
+          handleLanguageChange={handleLanguageChange}
+          classNumber={classNumber}
+          handleClassChange={handleClassChange}
+          subject={subject}
+          handleSubjectChange={handleSubjectChange}
+        />
         <div className="container">
           <div className="main_container ">
             <MainContainer>
@@ -282,37 +211,15 @@ const SpeechRecognitionComponent = () => {
               </ChatContainer>
             </MainContainer>
 
-            <div className="input_container">
-              <input
-                type="text"
-                placeholder="Enter your message"
-                className="bg-[#0D082C] text-white"
-                disabled={aiSpeaking}
-                value={newText}
-                onChange={(e) => setNewText(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSend(newText);
-                  }
-                }}
-              />
-              <div className="input-options">
-                <FaMicrophone
-                  className="mic"
-                  onClick={startListening}
-                  style={{ pointerEvents: aiSpeaking ? "none" : "auto" }}
-                />
-
-                <FaMicrophoneSlash
-                  className="mic-off"
-                  onClick={() => stopSpeaking(src)}
-                />
-                <BsFillSendFill
-                  className="send_button"
-                  onClick={() => handleSend(newText)}
-                />
-              </div>
-            </div>
+            <InputContainer
+              newText={newText}
+              setNewText={setNewText}
+              aiSpeaking={aiSpeaking}
+              startListening={startListening}
+              handleSend={handleSend}
+              stopSpeaking={stopSpeaking}
+              src={src}
+            />
           </div>
         </div>
       </div>
