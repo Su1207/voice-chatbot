@@ -321,3 +321,22 @@ button:hover {
   width: 80%;
   margin: 22px 7px;
 }
+.audio-player {
+  background-color: lightgray; /* Light background */
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.player-button, .resume-button {
+  background-color: white; /* Light background for buttons */
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.player-button:hover, .resume-button:hover {
+  background-color: #f0f0f0; /* Light gray on hover */
+}

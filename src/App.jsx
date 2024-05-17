@@ -22,6 +22,7 @@ import { FaMicrophone } from "react-icons/fa";
 import { FaMicrophoneSlash } from "react-icons/fa";
 import Header from "./component/Header";
 import InputContainer from "./component/InputContainer";
+import AudioPlayer from "./component/AudioPlayer";
 
 // const API_KEY = "AIzaSyA8tRkKC8UCxF683P0y1nSBoN3jITMgUOI";
 // const genAI = new GoogleGenerativeAI(API_KEY);
@@ -74,7 +75,7 @@ const SpeechRecognitionComponent = () => {
       // Run this part of code after 3 seconds
       audioElement.src = response.data.audioUrl;
       setSrc(response.data.audioUrl);
-      audioElement.play();
+      // audioElement.play();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -184,6 +185,7 @@ const SpeechRecognitionComponent = () => {
           subject={subject}
           handleSubjectChange={handleSubjectChange}
         />
+        <AudioPlayer audioUrl={src}/>
         <div className="container">
           <div className="main_container ">
             <MainContainer>
