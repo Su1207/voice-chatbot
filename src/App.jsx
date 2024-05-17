@@ -185,7 +185,7 @@ const SpeechRecognitionComponent = () => {
           subject={subject}
           handleSubjectChange={handleSubjectChange}
         />
-        <AudioPlayer audioUrl={src}/>
+        {/* <AudioPlayer audioUrl={src}/> */}
         <div className="container">
           <div className="main_container ">
             <MainContainer>
