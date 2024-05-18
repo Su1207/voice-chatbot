@@ -165,7 +165,7 @@ const SpeechRecognitionComponent = () => {
                       <Message model={message} />
                       {isLatestMessageFromAI &&
                         i === messages.length - 1 &&
-                        typing.content !== "Medha is typing" && (
+                        !typing && (
                           <AudioPlayer audioUrl={src} />
                         )}
                     </div>

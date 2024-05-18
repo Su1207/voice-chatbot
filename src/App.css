@@ -336,6 +336,7 @@ button:hover {
   font-size: 0; /* Remove text size */
   display: flex;
   align-items: center;
+  padding: 3px 13px;
 
 }
 
