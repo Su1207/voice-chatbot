@@ -1,4 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
+import PlayOver from "./../../public/replay.png";
+import Pause from "./../../public/pause.png";
+import Play from "./../../public/play.png";
 
 const AudioPlayer = ({ audioUrl, autoPlay = false }) => {
   const audioRef = useRef(null);
@@ -69,9 +72,11 @@ const AudioPlayer = ({ audioUrl, autoPlay = false }) => {
     <div className="audio-player">
       <audio ref={audioRef} src={audioUrl} onTimeUpdate={() => setCurrentTime(audioRef.current.currentTime)} onEnded={handleEnded} />
       <button className="player-button" onClick={togglePlayPause}>
-        {isPlaying ? 'Pause' : 'Play'}
+        <img src={isPlaying ? Pause : Play} alt={isPlaying ? "Pause" : "Play"} />
       </button>
-      <button className="start-over-button" onClick={startOver}>Start Over</button>
+      <button className="start-over-button" onClick={startOver}>
+        <img src={PlayOver} alt="Start Over" />
+      </button>
     </div>
   );
 };

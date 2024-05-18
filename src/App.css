@@ -322,21 +322,32 @@ button:hover {
   margin: 22px 7px;
 }
 .audio-player {
-  background-color: lightgray; /* Light background */
-  padding: 20px;
-  margin-bottom: 20px;
+  
+  display: flex;
+  border-radius: 4px;
+  gap: 4px;
 }
 
-.player-button, .resume-button {
-  background-color: white; /* Light background for buttons */
-  padding: 10px 20px;
-  margin-right: 10px;
+.player-button, .start-over-button {
+ 
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 0; /* Remove text size */
+  display: flex;
+  align-items: center;
+
 }
 
-.player-button:hover, .resume-button:hover {
+.player-button img {
+  width: 24px; /* Set appropriate size for the icons */
+  height: 24px;
+}
+.start-over-button img {
+  width: 27px; /* Set appropriate size for the icons */
+  height: 27px;
+}
+
+.player-button:hover, .start-over-button:hover {
   background-color: #f0f0f0; /* Light gray on hover */
 }

@@ -3,7 +3,6 @@ import axios from "axios";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-// import useClipboard from "react-use-clipboard";
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
@@ -13,20 +12,14 @@ import {
   ChatContainer,
   MessageList,
   Message,
-  MessageInput,
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
-// import { GoogleGenerativeAI } from "@google/generative-ai";
 import { BsFillSendFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import { FaMicrophoneSlash } from "react-icons/fa";
 import Header from "./component/Header";
 import InputContainer from "./component/InputContainer";
 import AudioPlayer from "./component/AudioPlayer";
-
-// const API_KEY = "AIzaSyA8tRkKC8UCxF683P0y1nSBoN3jITMgUOI";
-// const genAI = new GoogleGenerativeAI(API_KEY);
-// const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 const SpeechRecognitionComponent = () => {
   const [typing, setTyping] = useState(false);
@@ -36,19 +29,13 @@ const SpeechRecognitionComponent = () => {
   const [language, setLanguage] = useState("English");
   const [classNumber, setClassNumber] = useState("6");
   const [subject, setSubject] = useState("English");
-  const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-  };
+  const [isLatestMessageFromAI, setIsLatestMessageFromAI] = useState(false);
 
-  const handleClassChange = (e) => {
-    setClassNumber(e.target.value);
-  };
+  const handleLanguageChange = (e) => setLanguage(e.target.value);
+  const handleClassChange = (e) => setClassNumber(e.target.value);
+  const handleSubjectChange = (e) => setSubject(e.target.value);
 
-  const handleSubjectChange = (e) => {
-    setSubject(e.target.value);
-  };
-
-  const chatContainerRef = useRef(null);
+  const lastMessageRef = useRef(null);
 
   const [messages, setMessages] = useState([
     {
@@ -67,74 +54,47 @@ const SpeechRecognitionComponent = () => {
     try {
       const response = await axios.post(
         "https://voicebot-server.onrender.com/generate-speech",
-        {
-          text: text,
-        }
+        { text }
       );
 
-      // Run this part of code after 3 seconds
       audioElement.src = response.data.audioUrl;
       setSrc(response.data.audioUrl);
-      // audioElement.play();
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  // Function to stop speech
   const stopSpeaking = (audioUrl) => {
-    console.log(audioUrl);
     audioElement.src = audioUrl;
     audioElement.pause();
     setAiSpeaking(false);
   };
 
   const handleSend = async (message) => {
-    if (!message) {
-      return;
-    }
+    if (!message) return;
 
     setNewText("");
     resetTranscript();
 
-    // Update messages with the user's message
-    const newMessage = {
-      message,
-      direction: "outgoing",
-      sender: "user",
-    };
-
+    const newMessage = { message, direction: "outgoing", sender: "user" };
     const newMessages = [...messages, newMessage];
     setMessages(newMessages);
-
     setTyping(true);
 
     try {
-      // Construct the API URL with query parameters
       const apiUrl = `https://medha-cograd.azurewebsites.net/text_query/?query=${message}&language=${language}&class_num=${classNumber}&subject=${subject}`;
-
       const response = await axios.post(apiUrl);
 
-      console.log(response.data);
-
       const text = response.data;
-
-      // Play the response text with a female voice
       await speakTextWithFemaleVoice(text);
 
       const isCode = text.includes("```");
-
-      // Update messages with the AI's response
       setMessages((prevMessages) => [
         ...prevMessages,
-        {
-          message: text,
-          sender: "ai",
-          direction: "incoming",
-          isCode,
-        },
+        { message: text, sender: "ai", direction: "incoming", isCode },
       ]);
 
+      setIsLatestMessageFromAI(true); // Set flag to true when AI responds
       setTyping(false);
     } catch (error) {
       setTyping(false);
@@ -152,9 +112,7 @@ const SpeechRecognitionComponent = () => {
     listening,
   } = useSpeechRecognition();
 
-  // Listen for changes in the 'listening' variable
   useEffect(() => {
-    // If the user is not speaking, stop listening and call handleSend with the transcript
     if (!listening) {
       handleSend(transcript);
     }
@@ -164,17 +122,18 @@ const SpeechRecognitionComponent = () => {
     setNewText(transcript);
   }, [transcript]);
 
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   if (!browserSupportsSpeechRecognition) {
     return null;
   }
 
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollIntoView({ scrollBehavior: "smooth" });
-    }
-  }, [messages]);
   return (
-    <div className="App ">
+    <div className="App">
       <div className="above">
         <Header
           navigateToVideos={navigateToVideos}
@@ -185,9 +144,8 @@ const SpeechRecognitionComponent = () => {
           subject={subject}
           handleSubjectChange={handleSubjectChange}
         />
-        {/* <AudioPlayer audioUrl={src}/> */}
         <div className="container">
-          <div className="main_container ">
+          <div className="main_container">
             <MainContainer>
               <ChatContainer>
                 <MessageList
@@ -199,20 +157,22 @@ const SpeechRecognitionComponent = () => {
                   }
                   className="bg-[#0D082C]"
                 >
-                  <div as={Message}>
-                    {messages.map((message, i) => (
-                      <Message
-                        key={i}
-                        model={message}
-                        // Example inline styles
-                      />
-                    ))}
-                    <div ref={chatContainerRef}></div>
-                  </div>
+                  {messages.map((message, i) => (
+                    <div
+                      key={i}
+                      ref={i === messages.length - 1 ? lastMessageRef : null}
+                    >
+                      <Message model={message} />
+                      {isLatestMessageFromAI &&
+                        i === messages.length - 1 &&
+                        typing.content !== "Medha is typing" && (
+                          <AudioPlayer audioUrl={src} />
+                        )}
+                    </div>
+                  ))}
                 </MessageList>
               </ChatContainer>
             </MainContainer>
-
             <InputContainer
               newText={newText}
               setNewText={setNewText}
