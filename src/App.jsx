@@ -86,16 +86,18 @@ const SpeechRecognitionComponent = () => {
       const response = await axios.post(apiUrl);
 
       const text = response.data;
-      await speakTextWithFemaleVoice(text);
 
       const isCode = text.includes("```");
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { message: text, sender: "ai", direction: "incoming", isCode },
-      ]);
+      const aiMessage = { message: text, sender: "ai", direction: "incoming", isCode };
+      
+      setMessages((prevMessages) => [...prevMessages, aiMessage]);
 
-      setIsLatestMessageFromAI(true); // Set flag to true when AI responds
+      // Show the text immediately
       setTyping(false);
+      setIsLatestMessageFromAI(true); // Set flag to true when AI responds
+
+      // Generate speech
+      await speakTextWithFemaleVoice(text);
     } catch (error) {
       setTyping(false);
       console.error("Error while sending message:", error);
@@ -165,7 +167,7 @@ const SpeechRecognitionComponent = () => {
                       <Message model={message} />
                       {isLatestMessageFromAI &&
                         i === messages.length - 1 &&
-                        !typing && (
+                        !typing && src && (
                           <AudioPlayer audioUrl={src} />
                         )}
                     </div>
