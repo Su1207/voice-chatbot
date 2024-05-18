@@ -3,7 +3,7 @@ import PlayOver from "./../../public/replay.png";
 import Pause from "./../../public/pause.png";
 import Play from "./../../public/play.png";
 
-const AudioPlayer = ({ audioUrl, autoPlay = false }) => {
+const AudioPlayer = ({ audioUrl, autoPlay = true }) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0); // Track current playback time
