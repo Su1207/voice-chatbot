@@ -92,7 +92,7 @@ const SpeechRecognitionComponent = () => {
       
       setMessages((prevMessages) => [...prevMessages, aiMessage]);
 
-      // Show the text immediately
+      // Show the text 
       setTyping(false);
       setIsLatestMessageFromAI(true); // Set flag to true when AI responds
 
